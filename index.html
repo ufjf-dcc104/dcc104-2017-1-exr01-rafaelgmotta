@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>DCC104 - Exemplo 01</title>
+    <script src="sprite.js"></script>
   </head>
   <body>
     <h1>DCC104 - Exemplo 01</h1>
@@ -15,21 +16,16 @@
 
       ctx.fillText("Olá Mundo",10,15);
 
-      var azul = {
-        x: 0,
-        y: 50
-      };
 
       var fps = 60;
       var atual = new Date();
       var anterior = new Date();
       var dt = 1/fps;
 
-      //setInterval(desenha,1000/fps);
+      azul = new Sprite();
+
+
       desenha();
-
-
-
 
       function desenha(){
         requestAnimationFrame(desenha);
@@ -40,26 +36,51 @@
         ctx.clearRect(0,0,eCanvas.width,eCanvas.height);
         ctx.fillStyle = "darkgreen";
         ctx.fillText("dt: "+dt+" fps: "+Math.floor(1/dt),10,10);
-        azul.x = azul.x + 30*dt;
-        azul.y = azul.y + 30*dt;
-        desenhaAzul(ctx);
-        desenhaVermelho(ctx);
+
+        azul.mover(dt);
+        azul.desenhar(ctx);
+
+
         anterior = atual;
       }
 
-      function desenhaAzul(ctx){
-        ctx.fillStyle = "blue";
-        ctx.fillRect(azul.x,azul.y,20,20);
-        ctx.lineWidth = 2;
-        ctx.strokeRect(azul.x,azul.y,20,20);
-      }
+      addEventListener("keydown", function(e){
+        console.log(e.keyCode);
+        switch(e.keyCode){
+            case 37:
+              azul.ax = -100;
+              break;
+            case 38:
+              azul.ay = -100;
+              break;
+            case 39:
+              azul.ax = +100;
+              break;
+            case 40:
+              azul.ay = +100;
+              break;
+        }
+      });
 
-      function desenhaVermelho(ctx){
-        ctx.fillStyle = "red";
-        ctx.fillRect(100,50,20,20);
-        ctx.lineWidth = 2;
-        ctx.strokeRect(100,50,20,20);
-      }
+      addEventListener("keyup", function(e){
+        console.log(e.keyCode);
+        switch(e.keyCode){
+            case 37:
+              azul.ax = 0;
+              break;
+            case 38:
+              azul.ay = 0;
+              break;
+            case 39:
+              azul.ax = 0;
+              break;
+            case 40:
+              azul.ay = 0;
+              break;
+        }
+      });
+
+
     </script>
   </body>
 </html>
